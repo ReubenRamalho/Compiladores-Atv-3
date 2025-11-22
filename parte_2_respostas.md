@@ -109,4 +109,31 @@ E assim sucessivamente.
 
 Portanto, a resposta correta é:
 
-# **2 registradores**
+### **2 registradores**
+
+## 3. Existe alguma forma de calcular expressões aritméticas constantes de tamanho arbitrário com um número limitado de registradores? 
+
+### Resposta simples: Não. Pensando em uma expressão aritmética genérica, não. ###
+
+É possível pensar que toda expressão aritmética das operaçoes básicas pode ser vista como uma árvore, em que os nós são sempre constantes ou operadores, e os nós folhas são sempre constantes.
+
+Podemos considerar, então, uma expressão aritmética da seguinte estrutura:
+
+```bash
+(ExprA) Operador (ExprB)
+```
+
+Em que o operador pode ser +, -, x, / e a expressão pode ser uma constante ou outra expressão
+
+Pra calcular o resultado dessa expressão, é preciso de 2 registradores: R1 pra armazenar o resultado de ExprA e R2 pra armazenar o resultado de ExprB. Porém, podemos "expandir" ExprB para:
+
+```bash
+ExprB = (ExprC) Operador (ExprD)
+```
+
+Ou seja, pra calcular ExprB agora eu não preciso só de R2: Eu preciso de R2 para armazenar o resultado de ExprC e mais um R3 pra armazenar o resultado de ExprD.
+
+Como a definição de todas as expressões que não são constantes são recursivas, então há uma necessidade recursiva (infinita) de registradores.
+
+O pior dos casos vem quando essa árvore está totalmente balanceada, em que cada nível a mais adiciona a necessidade de mais um registradir. E o melhor dos casos é quando ela está totalmente balanceada.
+
