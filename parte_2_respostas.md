@@ -110,30 +110,80 @@ E assim sucessivamente.
 Portanto, a resposta correta é:
 
 ### **2 registradores**
+---
 
-## 3. Existe alguma forma de calcular expressões aritméticas constantes de tamanho arbitrário com um número limitado de registradores? 
+## **3. Existe alguma forma de calcular expressões aritméticas constantes de tamanho arbitrário com um número limitado de registradores?**
 
-### Resposta simples: Não. Pensando em uma expressão aritmética genérica, não. ###
+### ✔️ **Resposta curta: Não. Para uma expressão totalmente genérica, não é possível.**
 
-É possível pensar que toda expressão aritmética das operaçoes básicas pode ser vista como uma árvore, em que os nós são sempre constantes ou operadores, e os nós folhas são sempre constantes.
+---
 
-Podemos considerar, então, uma expressão aritmética da seguinte estrutura:
+### 🔍 **Explicação detalhada**
 
-```bash
+Podemos representar qualquer expressão aritmética formada por constantes e operadores básicos ((+, -, \times, /)) como uma **árvore binária de expressão**, onde:
+
+* Os **nós internos** são operadores.
+* As **folhas** são constantes.
+* Cada expressão tem a forma:
+
+```text
 (ExprA) Operador (ExprB)
 ```
 
-Em que o operador pode ser +, -, x, / e a expressão pode ser uma constante ou outra expressão
+Para calcular uma expressão desse tipo, precisamos:
 
-Pra calcular o resultado dessa expressão, é preciso de 2 registradores: R1 pra armazenar o resultado de ExprA e R2 pra armazenar o resultado de ExprB. Porém, podemos "expandir" ExprB para:
+* **R1** para armazenar o resultado de `ExprA`.
+* **R2** para armazenar o resultado de `ExprB`.
 
-```bash
+---
+
+### 🌳 **Mas o problema é que a expressão é recursiva**
+
+`ExprB` também pode ser uma expressão composta:
+
+```text
 ExprB = (ExprC) Operador (ExprD)
 ```
 
-Ou seja, pra calcular ExprB agora eu não preciso só de R2: Eu preciso de R2 para armazenar o resultado de ExprC e mais um R3 pra armazenar o resultado de ExprD.
+Isso significa que, para calcular `ExprB`, precisamos:
 
-Como a definição de todas as expressões que não são constantes são recursivas, então há uma necessidade recursiva (infinita) de registradores.
+* **R2** para guardar o resultado de `ExprC`.
+* **R3** para guardar o resultado de `ExprD`.
 
-O pior dos casos vem quando essa árvore está totalmente balanceada, em que cada nível a mais adiciona a necessidade de mais um registradir. E o melhor dos casos é quando ela está totalmente balanceada.
+E assim por diante.
 
+Como uma expressão pode se expandir recursivamente para qualquer tamanho, não existe limite superior fixo para a profundidade dessa árvore.
+
+➡️ **Logo, o número de registradores necessários cresce com a profundidade da árvore.**
+
+---
+
+### ❗ Pior caso (árvore totalmente desbalanceada)
+
+Se uma expressão é construída de modo que cada subexpressão dependa da próxima (tipo uma cadeia profundamente aninhada):
+
+```text
+(((a + b) + c) + d) + e
+```
+
+a profundidade cresce linearmente → **mais registradores são necessários conforme o tamanho aumenta**.
+
+---
+
+### ⭐ “Melhor caso” (árvore balanceada)
+
+Uma árvore perfeita, completamente simétrica, reduz a profundidade, mas **ainda aumenta conforme o tamanho cresce**.
+
+Mesmo sendo mais eficiente, ela **não elimina o problema fundamental**:
+quanto maior a árvore, maior o número de registradores necessários para avaliá-la sem sobrescrever valores intermediários.
+
+---
+
+### 🎯 **Conclusão da Questão 3**
+
+> Para expressões aritméticas **constantes, arbitrárias e recursivas**, o número de registradores necessários depende da **profundidade da árvore de expressão**.
+> Como essa profundidade pode crescer indefinidamente, **não existe um número finito de registradores capaz de avaliar todas as expressões possíveis**.
+
+Portanto:
+
+### **❌ Não é possível calcular expressões aritméticas constantes arbitrárias com um número limitado de registradores.**
